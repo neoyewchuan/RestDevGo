@@ -6,7 +6,8 @@ import (
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/neoyewchuan/RestDevGo/banking/errs"
+
+	"github.com/neoyewchuan/RestDevGo/banking/banking/errs"
 )
 
 type CustomerRepositoryDB struct {
