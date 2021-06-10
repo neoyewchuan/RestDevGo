@@ -3,9 +3,11 @@ package app
 import (
 	"encoding/json"
 	"encoding/xml"
+	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/neoyewchuan/RestDevGo/banking/service"
 )
 
 type customer struct {
@@ -38,18 +40,21 @@ func (ch CustomerHandlers) getAllCustomers(w http.ResponseWriter, r *http.Reques
 
 func (ch CustomerHandlers) getCustomer(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
+	id := vars["customer_id"]
+
 	//fmt.Fprint(w, vars["customer_id"])
-	customers, _ := ch.service.GetAllCustomer()
-	for _, v := range customers {
-		if v.ID == vars["customer_id"] {
-			if r.Header.Get("Content-Type") == "application/xml" {
-				w.Header().Add("Content-type", "application/xml")
-				xml.NewEncoder(w).Encode(v)
-			} else {
-				w.Header().Add("Content-type", "application/json")
-				json.NewEncoder(w).Encode(v)
-			}
-			break
+	customer, err := ch.service.GetCustomer(id)
+	if err != nil {
+		w.WriteHeader(err.Code)
+		fmt.Fprintf(w, err.Error())
+	} else {
+
+		if r.Header.Get("Content-Type") == "application/xml" {
+			w.Header().Add("Content-type", "application/xml")
+			xml.NewEncoder(w).Encode(customer)
+		} else {
+			w.Header().Add("Content-type", "application/json")
+			json.NewEncoder(w).Encode(customer)
 		}
 	}
 

@@ -1,5 +1,7 @@
 package domain
 
+import "github.com/neoyewchuan/RestDevGo/banking/errs"
+
 type Customer struct {
 	ID          string `json:"id" xml:"id"`
 	Name        string `json:"full-name" xml:"full-name"`
@@ -10,5 +12,6 @@ type Customer struct {
 }
 
 type CustomerRepository interface {
-	FindAll() ([]Customer, error)
+	FindAll() ([]Customer, *errs.AppError)
+	ByID(string) (*Customer, *errs.AppError)
 }
