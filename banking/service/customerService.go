@@ -2,19 +2,20 @@ package service
 
 import (
 	"github.com/neoyewchuan/RestDevGo/banking/domain"
+	"github.com/neoyewchuan/RestDevGo/banking/dto"
 	"github.com/neoyewchuan/RestDevGo/banking/errs"
 )
 
 type CustomerService interface {
-	GetAllCustomer(string) ([]domain.Customer, *errs.AppError)
-	GetCustomer(string) (*domain.Customer, *errs.AppError)
+	GetAllCustomer(string) ([]dto.CustomerResponse, *errs.AppError)
+	GetCustomer(string) (*dto.CustomerResponse, *errs.AppError)
 }
 
 type DefaultCustomerService struct {
 	repo domain.CustomerRepository
 }
 
-func (dcs DefaultCustomerService) GetAllCustomer(status string) ([]domain.Customer, *errs.AppError) {
+func (dcs DefaultCustomerService) GetAllCustomer(status string) ([]dto.CustomerResponse, *errs.AppError) {
 	switch status {
 	case "active", "1":
 		status = "1"
@@ -23,11 +24,25 @@ func (dcs DefaultCustomerService) GetAllCustomer(status string) ([]domain.Custom
 	default:
 		status = ""
 	}
-	return dcs.repo.FindAll(status)
+	c, err := dcs.repo.FindAll(status)
+	if err != nil {
+		return nil, err
+	}
+	var response []dto.CustomerResponse
+	for _, v := range c {
+		response = append(response, v.ToDto())
+	}
+	return response, nil
 }
 
-func (dcs DefaultCustomerService) GetCustomer(id string) (*domain.Customer, *errs.AppError) {
-	return dcs.repo.ByID(id)
+func (dcs DefaultCustomerService) GetCustomer(id string) (*dto.CustomerResponse, *errs.AppError) {
+	c, err := dcs.repo.ByID(id)
+	if err != nil {
+		return nil, err
+	}
+	response := c.ToDto()
+
+	return &response, nil
 }
 
 func NewCustomerService(repository domain.CustomerRepository) DefaultCustomerService {

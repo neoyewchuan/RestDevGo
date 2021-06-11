@@ -1,6 +1,9 @@
 package domain
 
-import "github.com/neoyewchuan/RestDevGo/banking/errs"
+import (
+	"github.com/neoyewchuan/RestDevGo/banking/dto"
+	"github.com/neoyewchuan/RestDevGo/banking/errs"
+)
 
 type Customer struct {
 	ID          string `json:"id" xml:"id" db:"customer_id"`
@@ -9,6 +12,21 @@ type Customer struct {
 	ZipCode     string `json:"zip-code" xml:"zip-code" db:"zipcode"`
 	DateOfBirth string `json:"date-of-birth" xml:"date-of-birth" db:"date_of_birth"`
 	Status      string `json:"status" xml:"status" db:"status"`
+}
+
+func (c Customer) ToDto() dto.CustomerResponse {
+	statusAsText := "active"
+	if c.Status == "0" {
+		statusAsText = "inactive"
+	}
+	return dto.CustomerResponse{
+		ID:          c.ID,
+		Name:        c.Name,
+		DateOfBirth: c.DateOfBirth,
+		City:        c.City,
+		ZipCode:     c.ZipCode,
+		Status:      statusAsText,
+	}
 }
 
 type CustomerRepository interface {
