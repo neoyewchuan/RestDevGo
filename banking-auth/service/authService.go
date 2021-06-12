@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/dgrijalva/jwt-go"
+
 	"github.com/neoyewchuan/RestDevGo/banking-auth/domain"
 	"github.com/neoyewchuan/RestDevGo/banking-auth/dto"
 	"github.com/neoyewchuan/RestDevGo/banking-lib/errs"

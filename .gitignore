@@ -37,6 +37,7 @@ _testmain.go
 #other
 banking/resources/keep.md
 banking/start.sh
+banking-auth/start.sh
 node_modules/
 bower_components/
 .tmp

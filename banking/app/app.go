@@ -10,8 +10,8 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"
 
-	"github.com/neoyewchuan/RestDevGo/banking/banking/logger"
 	"github.com/neoyewchuan/RestDevGo/banking/domain"
+	"github.com/neoyewchuan/RestDevGo/banking/logger"
 	"github.com/neoyewchuan/RestDevGo/banking/service"
 )
 
@@ -20,7 +20,7 @@ func sanityCheck() {
 		"SERVER_ADDRESS",
 		"SERVER_PORT",
 		"DB_USER",
-		"DB_PASSWD",
+		"DB_PASS",
 		"DB_ADDR",
 		"DB_PORT",
 		"DB_NAME",
