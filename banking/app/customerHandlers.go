@@ -10,11 +10,11 @@ import (
 	"github.com/neoyewchuan/RestDevGo/banking/service"
 )
 
-type CustomerHandlers struct {
+type CustomerHandler struct {
 	service service.CustomerService
 }
 
-func (ch CustomerHandlers) getAllCustomers(w http.ResponseWriter, r *http.Request) {
+func (ch CustomerHandler) getAllCustomers(w http.ResponseWriter, r *http.Request) {
 	var status string
 	keys, ok := r.URL.Query()["status"]
 	if !ok || len(keys[0]) < 1 {
@@ -37,7 +37,7 @@ func (ch CustomerHandlers) getAllCustomers(w http.ResponseWriter, r *http.Reques
 	// }
 }
 
-func (ch CustomerHandlers) getCustomer(w http.ResponseWriter, r *http.Request) {
+func (ch CustomerHandler) getCustomer(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["customer_id"]
 
@@ -82,7 +82,7 @@ func encodeResponse(w http.ResponseWriter, r *http.Request, code int, data inter
 	}
 }
 
-// func (ch CustomerHandlers) createCustomer(w http.ResponseWriter, r *http.Request) {
+// func (ch CustomerHandler) createCustomer(w http.ResponseWriter, r *http.Request) {
 // 	var c customer
 
 // 	_ = json.NewDecoder(r.Body).Decode(&c)

@@ -14,18 +14,23 @@ type Customer struct {
 	Status      string `json:"status" xml:"status" db:"status"`
 }
 
-func (c Customer) ToDto() dto.CustomerResponse {
-	statusAsText := "active"
+func (c Customer) statusAsText() string {
+	statAsTxt := "active"
 	if c.Status == "0" {
-		statusAsText = "inactive"
+		statAsTxt = "inactive"
 	}
+	return statAsTxt
+}
+
+func (c Customer) ToDto() dto.CustomerResponse {
+
 	return dto.CustomerResponse{
 		ID:          c.ID,
 		Name:        c.Name,
 		DateOfBirth: c.DateOfBirth,
 		City:        c.City,
 		ZipCode:     c.ZipCode,
-		Status:      statusAsText,
+		Status:      c.statusAsText(),
 	}
 }
 

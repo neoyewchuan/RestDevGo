@@ -35,6 +35,8 @@ _testmain.go
 .DS_Store
 
 #other
+banking/resources/keep.md
+banking/start.sh
 node_modules/
 bower_components/
 .tmp
