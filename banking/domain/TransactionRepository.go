@@ -78,7 +78,7 @@ func (trdb TransactionRepositoryDB) Withdrawal(txn Transaction) (*Transaction, *
 	}
 	// need to maintain at least $1.00 in account
 	if resAccount.Amount-1 < txn.Amount {
-		return nil, errs.NewValidationError("Insufficient fund.")
+		return nil, errs.NewValidationError("Insufficient balance in the account.")
 	}
 	tx, err := trdb.client.Begin()
 	if err != nil {

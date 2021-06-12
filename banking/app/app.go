@@ -10,19 +10,25 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"
 
+	"github.com/neoyewchuan/RestDevGo/banking/banking/logger"
 	"github.com/neoyewchuan/RestDevGo/banking/domain"
 	"github.com/neoyewchuan/RestDevGo/banking/service"
 )
 
 func sanityCheck() {
-	if os.Getenv("SERVER_ADDRESS") == "" ||
-		os.Getenv("SERVER_PORT") == "" ||
-		os.Getenv("DB_USER") == "" ||
-		os.Getenv("DB_PASS") == "" ||
-		os.Getenv("DB_ADDR") == "" ||
-		os.Getenv("DB_PORT") == "" ||
-		os.Getenv("DB_NAME") == "" {
-		log.Fatal("Environment variable not defined...")
+	envProps := []string{
+		"SERVER_ADDRESS",
+		"SERVER_PORT",
+		"DB_USER",
+		"DB_PASSWD",
+		"DB_ADDR",
+		"DB_PORT",
+		"DB_NAME",
+	}
+	for _, k := range envProps {
+		if os.Getenv(k) == "" {
+			logger.Error(fmt.Sprintf("Environment variable %s not defined. Terminating application...", k))
+		}
 	}
 }
 

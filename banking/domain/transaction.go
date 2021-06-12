@@ -19,7 +19,7 @@ func (txn Transaction) ToDto() dto.NewTransactionResponse {
 	return dto.NewTransactionResponse{
 		TransactionID: txn.TransactionID,
 		LegalBalance:  txn.Amount,
-		AvailBalance:  txn.Amount - 1,
+		AvailBalance:  txn.Amount - 1, // need to maintain at least $1.00 in account
 	}
 }
 
