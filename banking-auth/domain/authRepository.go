@@ -4,6 +4,7 @@ import (
 	"database/sql"
 
 	"github.com/jmoiron/sqlx"
+
 	"github.com/neoyewchuan/RestDevGo/banking-lib/errs"
 	"github.com/neoyewchuan/RestDevGo/banking-lib/logger"
 )
@@ -56,7 +57,7 @@ func (d AuthRepositoryDb) FindBy(username, password string) (*Login, *errs.AppEr
 	sqlVerify := `SELECT username, u.customer_id, role, group_concat(a.account_id) as account_numbers FROM users u
                   LEFT JOIN accounts a ON a.customer_id = u.customer_id
                 WHERE username = ? and password = ?
-                GROUP BY a.customer_id`
+                GROUP BY u.customer_id,username,role`
 	err := d.client.Get(&login, sqlVerify, username, password)
 	if err != nil {
 		if err == sql.ErrNoRows {

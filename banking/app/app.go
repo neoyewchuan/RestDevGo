@@ -49,13 +49,23 @@ func Start() {
 	th := TransactionHandler{service.NewTransactionService(transactionRepositoryDb)}
 	// define route
 	// GET
-	router.HandleFunc("/customers", ch.getAllCustomers).Methods(http.MethodGet)
-	router.HandleFunc("/customers/{customer_id:[0-9]+}", ch.getCustomer).Methods(http.MethodGet)
+	router.HandleFunc("/customers", ch.getAllCustomers)
+		.Methods(http.MethodGet)
+		.Name("GetAllCustomers")
+	router.HandleFunc("/customers/{customer_id:[0-9]+}", ch.getCustomer)
+		.Methods(http.MethodGet)
+		.Name("GetCustomer")
 
 	// POST
-	router.HandleFunc("/customers/{customer_id:[0-9]+}/account", ah.newAccount).Methods(http.MethodPost)
-	router.HandleFunc("/customers/{customer_id:[0-9]+}/transaction", th.newTransaction).Methods(http.MethodPost)
+	router.HandleFunc("/customers/{customer_id:[0-9]+}/account", ah.newAccount)
+		.Methods(http.MethodPost)
+		.Name("NewAccount")
+	router.HandleFunc("/customers/{customer_id:[0-9]+}/transaction", th.newTransaction)
+		.Methods(http.MethodPost)
+		.Name("NewTransaction")
 
+	am := AuthMiddleware{domain.NewAuthRepository()}
+	router.Use(am.authorizationHandler())
 	// starting server
 	// Run the program with the following command:
 	// SERVER_ADDRESS=localhost SERVER_PORT=8000 go run main.go

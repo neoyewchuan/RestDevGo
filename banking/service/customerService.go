@@ -7,7 +7,7 @@ import (
 )
 
 type CustomerService interface {
-	GetAllCustomer(string) ([]dto.CustomerResponse, *errs.AppError)
+	GetAllCustomers(string) ([]dto.CustomerResponse, *errs.AppError)
 	GetCustomer(string) (*dto.CustomerResponse, *errs.AppError)
 }
 
@@ -15,7 +15,7 @@ type DefaultCustomerService struct {
 	repo domain.CustomerRepository
 }
 
-func (dcs DefaultCustomerService) GetAllCustomer(status string) ([]dto.CustomerResponse, *errs.AppError) {
+func (dcs DefaultCustomerService) GetAllCustomers(status string) ([]dto.CustomerResponse, *errs.AppError) {
 	switch status {
 	case "active", "1":
 		status = "1"

@@ -22,7 +22,7 @@ func (ch CustomerHandler) getAllCustomers(w http.ResponseWriter, r *http.Request
 	} else {
 		status = keys[0]
 	}
-	customers, err := ch.service.GetAllCustomer(status)
+	customers, err := ch.service.GetAllCustomers(status)
 	if err != nil {
 		encodeResponse(w, r, err.Code, err.AsMessage())
 	} else {
